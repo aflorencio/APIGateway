@@ -147,9 +147,9 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreLib\CoreLib.csproj">
-      <Project>{de6c7ce4-e608-4299-aa71-d13c6275c098}</Project>
-      <Name>CoreLib</Name>
+    <ProjectReference Include="..\..\LibCore\LibCore\LibCore\LibCore.csproj">
+      <Project>{e249f0dc-da87-4552-883f-3a2332fe331d}</Project>
+      <Name>LibCore</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -13,18 +13,17 @@ namespace SignalRChat
         #region CONTACTO
         public void Send(string nombre, string apellidos, string dni, string cif, string direccion, string localidad, string provincia, string cp, string pais, string telefono1, string telefono2, string email1, string email2, string langNative, string particularEmpresa, string descripcionCaso, string fuenteCliente) 
         {
-            CoreLib.Start _ = new CoreLib.Start("");
+            LibCore.Start _ = new LibCore.Start("");
 
-            _.Contacto.CreateContactos(nombre,apellidos,dni,cif,direccion,localidad,provincia,cp,pais, telefono1, telefono2, email1, email2, langNative, particularEmpresa, descripcionCaso, fuenteCliente);
-            
+            _.Contacto.CreateContacto(nombre,apellidos,dni,cif,direccion,localidad,provincia,cp,pais, telefono1, telefono2, email1, email2, langNative, particularEmpresa, descripcionCaso, fuenteCliente);
 
         }
 
         public async Task readcontactos() {
 
-            CoreLib.Start _ = new CoreLib.Start("");
+            LibCore.Start _ = new LibCore.Start("");
 
-            string json  = await _.Contacto.ReadAllContactos();
+            string json  = await _.Contacto.ReadAllContacto();
 
             Clients.All.addNewContactoToPage(json);
         }
