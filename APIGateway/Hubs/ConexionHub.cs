@@ -19,14 +19,14 @@ namespace SignalRChat
 
         }
 
-        public async Task readcontactos() {
+        //public async Task readcontactos() {
 
-            LibCore.Start _ = new LibCore.Start("");
+        //    LibCore.Start _ = new LibCore.Start("");
 
-            string json  = await _.Contacto.ReadAllContacto();
+        //    string json  = await _.Contacto.ReadAllContacto();
 
-            Clients.All.addNewContactoToPage(json);
-        }
+        //    Clients.All.addNewContactoToPage(json);
+        //}
         #endregion
     }
 }
