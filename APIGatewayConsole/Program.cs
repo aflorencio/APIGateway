@@ -11,22 +11,55 @@ namespace APIGatewayConsole
     {
         static void Main(string[] args)
         {
-            Console.Title = "APIGateway v0.1.0.0";
-            Console.WriteLine("     A P I   G A T E W A Y   v0.1.0.0 ");
-            Console.ReadLine();
+            var v = "v0.1.0.0";
+            Console.Title = "APIGateway " + v;
+            Console.WriteLine("     A P I   G A T E W A Y    " + v);            
+            var serverStandar = new RestServer();
 
-            using (var server = new RestServer())
+            var input = "";
+            while ((input = Console.ReadLine()) != "q")
             {
-                server.Port = "5000";
-                server.Host = "*";
-                server.LogToConsole().Start();
-                Console.Title = "[ON] APIGateway v0.1.0.0";
-                Console.ReadLine();
-                server.Stop();
-                System.GC.Collect();
-                
+                switch (input)
+                {
+                    case "start":
+                        Console.WriteLine("Starting service...");
+                        serverStandar.Port = "5000";
+                        serverStandar.Host = "*";
+                        serverStandar.Start();
+                        Console.Title = "[ON] APIGateway " + v;
+
+                        break;
+
+
+                    case "start --log":
+                        Console.WriteLine("Starting service...");
+
+                        using (var server = new RestServer())
+                        {
+                            server.Port = "5000";
+                            server.Host = "*";
+                            server.LogToConsole().Start();
+                            Console.Title = "[ON] APIGateway " + v;
+                            Console.ReadLine();
+                            server.Stop();
+                        }
+
+                        break;
+                    case "stop":
+                        Console.WriteLine("Stopping service...");
+                        serverStandar.Stop();
+                        Console.Title = "APIGateway " + v;
+                        break;
+                    case "--version":
+                        Console.WriteLine(v);
+
+                        break;
+                    default:
+                        Console.WriteLine(String.Format("Unknown command: {0}", input));
+                        break;
+                }
+
             }
-        Console.ReadLine();
         }
     }
 
