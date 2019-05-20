@@ -54,14 +54,14 @@ namespace APIGatewayConsole
             return context;
         }
 
-        [RestRoute(HttpMethod = HttpMethod.GET, PathInfo = "/api/contacto/tomadecontacto")]
+        [RestRoute(HttpMethod = HttpMethod.GET, PathInfo = "/api/contacto/tomacontacto")]
         public IHttpContext TomaDeContacto(IHttpContext context)
         {
 
             var runner = Task.Run(() => {
                 LibCore.Start _ = new LibCore.Start("");
                 var id = context.Request.QueryString["id"] ?? "noneid?"; //Si no id dara error
-                var dataRun = _.Contacto.ReadOneContacto(id);
+                var dataRun = _.Contacto.TomaDeContacto(id);
                 return JsonConvert.SerializeObject(dataRun, Formatting.Indented);
             });
 
