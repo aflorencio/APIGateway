@@ -14,6 +14,50 @@ namespace APIGatewayConsole.Controllers
     [RestResource]
     class Rastreo
     {
+
+        #region GET
+
+        [RestRoute(HttpMethod = HttpMethod.GET, PathInfo = "/api/rastreo/all")]
+        public IHttpContext ReadAllContacto(IHttpContext context)
+        {
+
+            var runer = Task.Run(() =>
+            {
+                LibCore.Start _ = new LibCore.Start("");
+                var dataRun = _.Rastreo.ReadAllRastreo();
+                return JsonConvert.SerializeObject(dataRun, Formatting.Indented);
+            });
+
+            runer.Wait();
+            runer.Dispose();
+
+            context.Response.AppendHeader("Content-Type", "application/json");
+            context.Response.SendResponse(runer.Result);
+            return context;
+        }
+
+        [RestRoute(HttpMethod = HttpMethod.GET, PathInfo = "/api/rastreo/one")]
+        public IHttpContext ReadOneContacto(IHttpContext context)
+        {
+
+            var runner = Task.Run(() => {
+                LibCore.Start _ = new LibCore.Start("");
+                var id = context.Request.QueryString["id"] ?? "noneid?"; //Si no id dara error
+                var dataRun = _.Rastreo.ReadOneRastreo(id);
+                return JsonConvert.SerializeObject(dataRun, Formatting.Indented);
+            });
+
+            runner.Wait();
+            runner.Dispose();
+
+            context.Response.AppendHeader("Content-Type", "application/json");
+            context.Response.SendResponse(runner.Result);
+            return context;
+        }
+
+
+        #endregion
+
         #region POST
 
         [RestRoute(HttpMethod = HttpMethod.POST, PathInfo = "/api/rastreo/addLink")]
@@ -45,27 +89,60 @@ namespace APIGatewayConsole.Controllers
         public IHttpContext AddRastreo(IHttpContext context)
         {
             string jsonRAW = context.Request.Payload;
-            dynamic dataId = JsonConvert.DeserializeObject<object>(jsonRAW);
-
-            string[] words = dataId?.idContactoService.ToString().Split(',');
-
-            LibCore.Mrastreo data = new LibCore.Mrastreo();
-
-            List<string> contactoServiceList = new List<string>();
-            foreach (string word in words)
-            {
-                contactoServiceList.Add(word);
-            }
-            data.idContactoService = contactoServiceList;
-            data.finalizado = dataId?.finalizado == "true" ? true : false;
-            data.idTicketService = dataId?.idTicketService;
-            data.keyWord = dataId?.keyWord;
+            LibCore.Mrastreo dataId = JsonConvert.DeserializeObject<LibCore.Mrastreo>(jsonRAW);
 
             LibCore.Start _ = new LibCore.Start("");
 
             try
             {
-                _.Rastreo.CreateRastreo(data);
+
+                _.Rastreo.CreateRastreo(dataId);
+
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+
+            //context.Response.AppendHeader("Content-Type", "application/json");
+            context.Response.SendResponse("OK!");
+            return context;
+        }
+
+        #endregion
+
+        #region PUT
+
+        [RestRoute(HttpMethod = HttpMethod.PUT, PathInfo = "/api/rastreo/update")]
+        public IHttpContext UpdateContacto(IHttpContext context)
+        {
+
+            LibCore.Start _ = new LibCore.Start("");
+
+            var id = context.Request.QueryString["id"] ?? "noneID?"; //Si no id dara error
+            var name = context.Request.QueryString["name"] ?? "noneName?"; //Si no id dara error
+            var valor = context.Request.QueryString["value"] ?? "noneValor?"; //Si no id dara error
+
+            _.Rastreo.UpdateRastreo(id, name, valor);
+            context.Response.SendResponse("Updated!");
+            return context;
+        }
+
+
+        #endregion
+
+        #region DELETE
+
+        [RestRoute(HttpMethod = HttpMethod.DELETE, PathInfo = "/api/rastreo/delete")]
+        public IHttpContext DeleteRastreo(IHttpContext context)
+        {
+            LibCore.Start _ = new LibCore.Start("");
+            var id = context.Request.QueryString["id"] ?? "what?";
+            try
+            {
+
+                _.Rastreo.DeleteRastreo(id);
 
             }
             catch (Exception e)
