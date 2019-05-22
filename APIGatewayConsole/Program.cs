@@ -12,7 +12,8 @@ namespace APIGatewayConsole
         static void Main(string[] args)
         {
             var v = "v0.1.0.0";
-            Console.Title = "APIGateway " + v;
+            var nameService = "API Gateway";
+            Console.Title = nameService + " " + v;
             Console.WriteLine("     A P I   G A T E W A Y    " + v);            
             var serverStandar = new RestServer();
 
@@ -26,7 +27,7 @@ namespace APIGatewayConsole
                         serverStandar.Port = "5000";
                         serverStandar.Host = "*";
                         serverStandar.Start();
-                        Console.Title = "[ON] APIGateway " + v;
+                        Console.Title = "[ON]  " + nameService + " " + v;
 
                         break;
 
@@ -39,7 +40,7 @@ namespace APIGatewayConsole
                             server.Port = "5000";
                             server.Host = "*";
                             server.LogToConsole().Start();
-                            Console.Title = "[ON] APIGateway " + v;
+                            Console.Title = "[ON]  " + nameService + " " + v;
                             Console.ReadLine();
                             server.Stop();
                         }
@@ -48,7 +49,7 @@ namespace APIGatewayConsole
                     case "stop":
                         Console.WriteLine("Stopping service...");
                         serverStandar.Stop();
-                        Console.Title = "APIGateway " + v;
+                        Console.Title = nameService + " " + v;
                         break;
                     case "--version":
                         Console.WriteLine(v);
