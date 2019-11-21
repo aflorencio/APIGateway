@@ -97,8 +97,10 @@ namespace APIGatewayConsole
             }
 
 
-            //context.Response.AppendHeader("Content-Type", "application/json");
-            context.Response.SendResponse("OK!");
+            context.Response.AppendHeader("Content-Type", "application/json");
+            context.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            context.Response.AppendHeader("Access-Control-Allow-Headers", "X-Requested-With");
+            context.Response.SendResponse(JsonConvert.SerializeObject("hola", Formatting.Indented));
             return context;
         }
 
